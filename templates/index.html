@@ -1,0 +1,720 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CookMate - AI Recipe Generator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #fffaf3;
+            color: #173b2c;
+        }
+
+        /* ---------------- NAVBAR ---------------- */
+
+        nav {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            background: #fffaf3;
+            border-bottom: 1px solid #eee4d5;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 42px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: #173b2c;
+        }
+
+        .logo-text span {
+            color: #f15a24;
+        }
+
+        .tagline {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .tagline span {
+            color: #f15a24;
+            font-size: 20px;
+        }
+
+        /* ---------------- HERO ---------------- */
+
+        .hero {
+            min-height: 520px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 55px 8%;
+
+            background:
+                radial-gradient(circle at 10% 20%, #f0ead9 0, transparent 28%),
+                radial-gradient(circle at 90% 40%, #f8dfc6 0, transparent 30%),
+                #fff4e7;
+        }
+
+        .hero-content {
+            width: 55%;
+        }
+
+        .small-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #e85c20;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 6vw, 78px);
+            line-height: 1.02;
+            color: #173b2c;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            font-family: "Pacifico", cursive;
+            color: #f15a24;
+            font-weight: 400;
+        }
+
+        .hero-description {
+            font-size: 19px;
+            line-height: 1.7;
+            max-width: 650px;
+            color: #53635a;
+            margin-bottom: 30px;
+        }
+
+        /* ---------------- INPUT BOX ---------------- */
+
+        .recipe-box {
+            max-width: 720px;
+
+            background: white;
+            border-radius: 22px;
+
+            padding: 20px;
+
+            box-shadow: 0 15px 40px rgba(74, 55, 32, 0.12);
+        }
+
+        textarea {
+            width: 100%;
+            height: 115px;
+
+            border: 2px solid #e6e1d8;
+            border-radius: 15px;
+
+            padding: 18px;
+
+            font-family: inherit;
+            font-size: 16px;
+
+            resize: none;
+            outline: none;
+
+            color: #173b2c;
+        }
+
+        textarea:focus {
+            border-color: #65a765;
+        }
+
+        .input-bottom {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 14px;
+        }
+
+        .generate-btn {
+            border: none;
+            border-radius: 50px;
+
+            background: #39864d;
+            color: white;
+
+            padding: 15px 28px;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .generate-btn:hover {
+            background: #2d6d3e;
+            transform: translateY(-2px);
+        }
+
+        /* ---------------- CHEF ---------------- */
+
+        .chef {
+            width: 35%;
+            text-align: center;
+            font-size: 150px;
+
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
+        }
+
+        /* ---------------- EXAMPLES ---------------- */
+
+        .examples {
+            padding: 45px 8%;
+            background: #fffaf3;
+        }
+
+        .section-title {
+            font-family: "Pacifico", cursive;
+            font-size: 30px;
+            color: #173b2c;
+            margin-bottom: 25px;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .example-card {
+            background: #eef4e6;
+            border-radius: 18px;
+
+            padding: 22px;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(50, 80, 50, 0.12);
+        }
+
+        .example-icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .example-card p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #385544;
+        }
+
+        /* ---------------- FEATURES ---------------- */
+
+        .features {
+            margin: 30px 8% 70px;
+
+            padding: 55px 40px;
+
+            border-radius: 28px;
+
+            background: #f0f5e9;
+        }
+
+        .features h2 {
+            text-align: center;
+
+            font-family: "Pacifico", cursive;
+            font-size: 34px;
+
+            margin-bottom: 40px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .feature h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            font-size: 14px;
+            color: #627066;
+            line-height: 1.5;
+        }
+
+        /* ---------------- RECIPE RESPONSE ---------------- */
+
+        .response-section {
+            padding: 0 8% 60px;
+        }
+
+        .recipe-result {
+            background: white;
+
+            border-radius: 22px;
+
+            padding: 30px;
+
+            border-left: 6px solid #39864d;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+            white-space: pre-wrap;
+
+            line-height: 1.7;
+
+            font-size: 16px;
+        }
+
+        .recipe-result h2 {
+            color: #f15a24;
+            margin-bottom: 15px;
+        }
+
+        /* ---------------- FOOTER ---------------- */
+
+        footer {
+            background: #173b2c;
+            color: white;
+
+            text-align: center;
+
+            padding: 28px;
+        }
+
+        footer p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        footer span {
+            color: #ff7940;
+        }
+
+        /* ---------------- RESPONSIVE ---------------- */
+
+        @media (max-width: 900px) {
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content {
+                width: 100%;
+            }
+
+            .chef {
+                width: 100%;
+                margin-top: 30px;
+            }
+
+            .example-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tagline {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 0 5%;
+            }
+
+            .hero {
+                padding: 40px 5%;
+            }
+
+            .hero h1 {
+                font-size: 45px;
+            }
+
+            .example-grid,
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .examples,
+            .response-section {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+
+            .features {
+                margin-left: 5%;
+                margin-right: 5%;
+                padding: 35px 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            👨‍🍳
+        </div>
+
+        <div class="logo-text">
+            Cook<span>Mate</span>
+        </div>
+
+    </div>
+
+    <div class="tagline">
+        Good Food → Happy Mood <span>♡</span>
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="small-title">
+            ✦ AI POWERED COOKING ASSISTANT
+        </div>
+
+        <h1>
+            Your Personal
+            <br>
+            <span>Cooking Assistant</span>
+        </h1>
+
+        <p class="hero-description">
+            Have some ingredients sitting in your kitchen?
+            Tell CookMate what you have and discover a delicious
+            recipe. Or ask for the exact steps for your favourite dish.
+        </p>
+
+
+        <div class="recipe-box">
+
+            <form method="POST">
+
+                <textarea
+                    name="message"
+                    required
+                    placeholder="🥕  Example: I have chicken, rice, onion and garlic. What can I cook?"></textarea>
+
+                <div class="input-bottom">
+
+                    <button class="generate-btn" type="submit">
+                        🍴 Generate Recipe
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <div class="chef">
+        👨‍🍳
+    </div>
+
+</section>
+
+
+<!-- ================= EXAMPLES ================= -->
+
+<section class="examples">
+
+    <h2 class="section-title">
+        💡 Try asking...
+    </h2>
+
+    <div class="example-grid">
+
+
+        <div class="example-card"
+             onclick="setQuestion('I have chicken, rice and vegetables. What can I cook?')">
+
+            <div class="example-icon">
+                🥬
+            </div>
+
+            <p>
+                "I have chicken, rice and vegetables.
+                What can I cook?"
+            </p>
+
+        </div>
+
+
+        <div class="example-card"
+             onclick="setQuestion('How do I make chicken biryani?')">
+
+            <div class="example-icon">
+                🍲
+            </div>
+
+            <p>
+                "How do I make chicken biryani?"
+            </p>
+
+        </div>
+
+
+        <div class="example-card"
+             onclick="setQuestion('Give me the steps to make pasta.')">
+
+            <div class="example-icon">
+                🍝
+            </div>
+
+            <p>
+                "Give me the steps to make pasta."
+            </p>
+
+        </div>
+
+
+        <div class="example-card"
+             onclick="setQuestion('I have potatoes, onions and eggs. Suggest a recipe.')">
+
+            <div class="example-icon">
+                🥔
+            </div>
+
+            <p>
+                "I have potatoes, onions and eggs.
+                Suggest a recipe."
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features">
+
+    <h2>
+        Delicious Recipes, Made Easy!
+    </h2>
+
+
+    <div class="feature-grid">
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🌿
+            </div>
+
+            <h3>
+                Use Your Ingredients
+            </h3>
+
+            <p>
+                Tell the AI what ingredients
+                you already have.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ⏱️
+            </div>
+
+            <h3>
+                Know The Time
+            </h3>
+
+            <p>
+                Get preparation and
+                cooking times.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                📋
+            </div>
+
+            <h3>
+                Step-by-Step
+            </h3>
+
+            <p>
+                Follow simple cooking
+                instructions.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                💡
+            </div>
+
+            <h3>
+                Cooking Tips
+            </h3>
+
+            <p>
+                Get useful tips to make
+                your food even better.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- ================= AI RESPONSE ================= -->
+
+{% if reply %}
+
+<section class="response-section">
+
+    <div class="recipe-result">
+
+        <h2>
+            👨‍🍳 Your Recipe
+        </h2>
+
+        {{ reply }}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        Made with ❤️ by <span>CookMate</span>
+        · Your AI Kitchen Companion
+    </p>
+
+</footer>
+
+
+<script>
+
+    function setQuestion(question) {
+
+        const textarea = document.querySelector("textarea");
+
+        textarea.value = question;
+
+        textarea.focus();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
